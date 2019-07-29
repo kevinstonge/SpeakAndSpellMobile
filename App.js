@@ -4,37 +4,27 @@ import SNSsvg from './accessories/SNSsvg';
 import SNSstate from './accessories/SNSstate';
 import SNSvars from './accessories/SNSvars';
 import SNSfunc from './accessories/SNSfunc';
-import SNSaudio from './accessories/sns96-mono.mp3';
-import Sound from 'react-native-sound';
+import Sound from 'react-native-sound-player'
+
 
 export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = SNSstate;
     this.vars = SNSvars;
-    this.audioElement = new Sound(SNSaudio);
-    this.timer1 = undefined;
     this.functions = SNSfunc;
   };
+  _onFinishedPlayingSubscription = null;
   SNSdisplay = (newState) => { this.setState(newState); };
-  syncOutput = (SNSvars,SNSstate,SNSfunctions) => {
+  syncOutput = (SNSvars,SNSfunctions) => {
     if (SNSvars.audioArray.length > 0) { 
+      let snsSound = `s${SNSvars.soundIndex.indexOf(SNSvars.audioArray[0])}`;
       SNSvars.wait = true;
       this.functions.pushOutput(SNSvars.textArray[0],SNSvars,SNSfunctions);
-      const startTime = SNSvars.soundIndex[SNSvars.soundIndex.indexOf(SNSvars.audioArray[0])+1];
-      const duration = SNSvars.soundIndex[SNSvars.soundIndex.indexOf(SNSvars.audioArray[0])+2];
-      this.audioElement.setCurrentTime(startTime);
-      this.audioElement.play();
-      //setTimeout has some precision problems; look into alternatives
-      this.timer1 = setTimeout(function() { 
-        SNSfunctions.syncOutput(SNSvars,SNSstate,SNSfunctions);
-      },duration);
-      SNSvars.textArray.shift();
-      SNSvars.audioArray.shift();
+      Sound.playSoundFile(snsSound,'mp3')
     }
     else { 
       SNSvars.wait = false;
-      this.audioElement.pause() 
     };
   };
   SNSButtonPress = (e) => {
@@ -44,10 +34,16 @@ export default class App extends Component {
     this.functions.SNSdisplay = this.SNSdisplay;
     this.functions.syncOutput = this.syncOutput;
     this.vars = this.functions.resetVariables(this.vars);
+    _onFinishedPlayingSubscription = Sound.addEventListener('FinishedPlaying', ({success}) => {
+      Sound.stop();
+      SNSvars.textArray.shift();
+      SNSvars.audioArray.shift();
+      this.functions.syncOutput(SNSvars,this.functions);
+    });
   }
   componentWillUnmount = () => {
-    this.audioElement.pause();
-    clearTimeout(this.timer1);
+    _onFinishedPlayingSubscription.remove();
+    Sound.stop();
   }
   render() {
   return (

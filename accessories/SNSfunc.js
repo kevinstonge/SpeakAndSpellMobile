@@ -17,13 +17,15 @@ const SNSfunc = {
       return a;
     },
     highlightOn(SNSstate,SNSfunctions) {
-      SNSstate[0]=1;
-      SNSstate = SNSfunctions.SNSdisplay(SNSstate);
-      setTimeout(SNSfunctions.highlightOff,500,SNSstate,SNSfunctions);
+      let newState = SNSstate;
+      newState[0]=1;
+      SNSfunctions.SNSdisplay(newState);
+      setTimeout(SNSfunctions.highlightOff,500,newState,SNSfunctions);
     },
     highlightOff(SNSstate,SNSfunctions) {
-      SNSstate[0]=0;
-      SNSstate = SNSfunctions.SNSdisplay(SNSstate);
+      let newState = SNSstate;
+      newState[0]=0;
+      SNSfunctions.SNSdisplay(newState);
     },
     clearDisplay(SNSfunctions) {
       const newState = { };
@@ -220,7 +222,7 @@ const SNSfunc = {
         }
         else { 
           SNSvars.textArray.push(newText.slice(0,8)); 
-          SNSvars.audioArray.push("beep"); 
+          SNSvars.audioArray.push("'"); 
         };
       };
       if (button === 39 && (SNSvars.mode.slice(0,8) === "go-spell" || SNSvars.mode.slice(0,4) === "code" || SNSvars.mode.slice(0,6) === "letter")) { 
@@ -289,7 +291,7 @@ const SNSfunc = {
           SNSvars.audioArray.push("youwin"); SNSvars.textArray.push(SNSvars.mysteryWord); 
         };
       };
-      SNSfunctions.syncOutput(SNSvars,SNSstate,SNSfunctions);
+      SNSfunctions.syncOutput(SNSvars,SNSfunctions);
     }
 } 
 export default SNSfunc;
