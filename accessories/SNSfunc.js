@@ -245,6 +245,7 @@ const SNSfunc = {
         SNSvars.spellProgress = 0;
         SNSvars.spellAttempts = 0;
         SNSvars.correctWords = 0;
+        SNSfunctions.spellNext(SNSvars,SNSstate,SNSfunctions);  //did it work?
       }
       if (SNSvars.mode.slice(0, 8) === "go-spell" && button === 4) { //repeat button
         let word = SNSvars.spellingWords[SNSvars.spellProgress];

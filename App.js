@@ -38,7 +38,7 @@ export default class App extends Component {
     _onFinishedLoadingFileSubscription = Sound.addEventListener('FinishedLoadingFile', async ({ success, name, type }) => {
       try {
         const info = await Sound.getInfo();
-        const timeout =  (info.duration - info.currentTime -  0.25)*1000;
+        const timeout =  (info.duration - info.currentTime -  0.15)*1000;  //this method reduces the delay between sequentially played sounds - it's hacky, but I haven't found a solid alternative
         SNSvars.textArray.shift();
         SNSvars.audioArray.shift();
         this.timer = setTimeout(this.functions.syncOutput,timeout,SNSvars,this.functions);
