@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableWithoutFeedback } from 'react-native';
-import Svg, { Image, G, Rect, Ellipse, Path, Circle } from 'react-native-svg';
+import { View, TouchableWithoutFeedback } from 'react-native';
+import Svg, { Image, G, Rect, Ellipse, Path } from 'react-native-svg';
 
 export default class SNSsvg extends Component {
     handler = (e) => {

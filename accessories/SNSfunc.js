@@ -134,7 +134,7 @@ const SNSfunc = {
         }
         else {
           SNSvars.textArray.push(displayedScore, displayedScore, displayedScore, displayedScore, displayedScore, displayedScore, displayedScore);
-          SNSvars.audioArray.push("activity" + SNSfunctions.randomInt(1,4), "activity" + SNSfunctions.randomInt(1,4), 'your_score', SNSvars.correctWords, "correct", wrongWords, "wrong2");
+          SNSvars.audioArray.push("activity" + SNSfunctions.randomInt(1,4), "activity" + SNSfunctions.randomInt(1,4), 'your_score', SNSvars.correctWords.toString(), "correct", wrongWords.toString(), "wrong2");
         }
       }
     },
